@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Dhyaan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f3f4f6;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .fade-in-up.show {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .hover-scale {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-scale:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+<!-- Navbar -->
+  <nav class="bg-white shadow-md fade-in-up animate">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-600">Calmkarle</h1>
+
+      <!-- Desktop Nav -->
+      <div class="hidden sm:flex items-center space-x-4">
+        <a href="../Testimoneal/Testimoneal.html" class="text-gray-700 hover:text-blue-600">Testimonial</a>
+        <a href="../Why/Why.html" class="text-gray-700 hover:text-blue-600">Why?</a>
+        <a href="../mentor/mentor.html" class="text-gray-700 hover:text-blue-600">Our Mentors</a>
+        <a href="#footer" class="text-gray-700 hover:text-blue-600">About Us</a>
+        <i class="fa-solid fa-user text-gray-700"></i>
+      </div>
+
+      <!-- Mobile Menu Icon -->
+      <div class="sm:hidden">
+        <button id="menu-btn" class="text-2xl text-gray-700 focus:outline-none">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="sm:hidden hidden px-4 pb-4 space-y-2">
+      <a href="../Testimoneal/Testimoneal.html" class="block text-gray-700 hover:text-blue-600">Testimonial</a>
+      <a href="../Why/Why.html" class="block text-gray-700 hover:text-blue-600">Why?</a>
+      <a href="../mentor/mentor.html" class="block text-gray-700 hover:text-blue-600">Our Mentors</a>
+      <a href="#footer" class="block text-gray-700 hover:text-blue-600">About Us</a>
+      <i class="fa-solid fa-user text-gray-700"></i>
+    </div>
+  </nav>
+
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-4 py-12">
+  <section id="feedback" class="min-h-[90vh] fade-in-up bg-white rounded-lg shadow p-6 md:p-12 flex flex-col justify-center items-center text-center">
+    <h2 class="text-3xl font-semibold mb-10">What Our Visitors Say</h2>
+
+    <div class="w-full overflow-x-auto">
+      <div class="flex gap-6 px-1 pb-4 snap-x snap-mandatory overflow-x-auto scroll-smooth">
+
+        <!-- Feedback Cards -->
+        <div class="snap-center shrink-0 bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg hover-scale w-[90%] sm:w-[70%] md:w-[50%] lg:w-[33%] xl:w-[30%] mx-auto flex flex-col items-center text-center">
+          <p class="text-gray-700 italic">“I’ve always found it hard to relax, but CalmKarle’s AI guide makes meditation feel approachable and effective. The personalized sessions help me unwind after stressful days.”</p>
+          <div class="mt-4 text-sm text-gray-500">— Neha S.</div>
+        </div>
+
+        <div class="snap-center shrink-0 bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg hover-scale w-[90%] sm:w-[70%] md:w-[50%] lg:w-[33%] xl:w-[30%] mx-auto flex flex-col items-center text-center">
+          <p class="text-gray-700 italic">“Each session feels tailored just for me, and I’ve noticed a real difference in my focus and sleep. The yearly subscription is a fantastic value.”</p>
+          <div class="mt-4 text-sm text-gray-500">— Arjun P.</div>
+        </div>
+
+        <div class="snap-center shrink-0 bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg hover-scale w-[90%] sm:w-[70%] md:w-[50%] lg:w-[33%] xl:w-[30%] mx-auto flex flex-col items-center text-center">
+          <p class="text-gray-700 italic">“CalmKarle has made mindfulness part of my daily routine. The variety of guided meditations keeps things fresh. It’s so accessible.”</p>
+          <div class="mt-4 text-sm text-gray-500">— Priya R.</div>
+        </div>
+
+        <div class="snap-center shrink-0 bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg hover-scale w-[90%] sm:w-[70%] md:w-[50%] lg:w-[33%] xl:w-[30%] mx-auto flex flex-col items-center text-center">
+          <p class="text-gray-700 italic">“The AI-powered reminders keep me consistent, and the soothing sounds help me sleep. A must-have app!”</p>
+          <div class="mt-4 text-sm text-gray-500">— Rishi M.</div>
+        </div>
+
+        <div class="snap-center shrink-0 bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg hover-scale w-[90%] sm:w-[70%] md:w-[50%] lg:w-[33%] xl:w-[30%] mx-auto flex flex-col items-center text-center">
+          <p class="text-gray-700 italic">“The app helped me deal with years of stress. The AI counselor is a game-changer. It’s worth every penny.”</p>
+          <div class="mt-4 text-sm text-gray-500">— Rahul D.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer id="footer" class="bg-white py-10 border-t fade-in-up">
+  <div class="max-w-7xl mx-auto px-4">
+    <h3 class="text-xl font-semibold text-center text-blue-600 mb-6">Meet the Team</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Akshad+Aloni&background=6b7280&color=fff&size=128" alt="Akshad Aloni" class="mx-auto rounded-full w-24 h-24 mb-2">
+        <h4 class="font-bold">Akshad Aloni</h4>
+        <p class="text-sm text-gray-500">Team Lead | AI Engineer</p>
+      </div>
+
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Shantanu+Bawne&background=6b7280&color=fff&size=128" alt="Shantanu Bawne" class="mx-auto rounded-full w-24 h-24 mb-2">
+        <h4 class="font-bold">Shantanu Bawne</h4>
+        <p class="text-sm text-gray-500">Backend Developer</p>
+      </div>
+
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Sakshi+Maind&background=6b7280&color=fff&size=128" alt="Sakshi Maind" class="mx-auto rounded-full w-24 h-24 mb-2">
+        <h4 class="font-bold">Sakshi Maind</h4>
+        <p class="text-sm text-gray-500">Research & Integration</p>
+      </div>
+
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Sarang+Khandate&background=6b7280&color=fff&size=128" alt="Sarang Khandate" class="mx-auto rounded-full w-24 h-24 mb-2">
+        <h4 class="font-bold">Sarang Khandate</h4>
+        <p class="text-sm text-gray-500">UI/UX | Front-End Developer</p>
+      </div>
+
+    </div>
+
+    <div class="text-center text-sm text-gray-500 mt-8">
+      <p><strong>College:</strong> Suryodaya College of Engineering and Technology</p>
+      <p><strong>Department:</strong> Data Science</p>
+      <p class="mt-2 text-xs">© 2025 AI Dhyaan. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Animation Script -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

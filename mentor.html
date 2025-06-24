@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Dhyaan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .fade-in-up.show {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .hover-scale {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-scale:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md fade-in-up animate">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-600">Calmkarle</h1>
+
+      <!-- Desktop Nav -->
+      <div class="hidden sm:flex items-center space-x-4">
+        <a href="../Testimoneal/Testimoneal.html" class="text-gray-700 hover:text-blue-600">Testimonial</a>
+        <a href="../Why/Why.html" class="text-gray-700 hover:text-blue-600">Why?</a>
+        <a href="../mentor/mentor.html" class="text-gray-700 hover:text-blue-600">Our Mentors</a>
+        <a href="#footer" class="text-gray-700 hover:text-blue-600">About Us</a>
+        <i class="fa-solid fa-user text-gray-700"></i>
+      </div>
+
+      <!-- Mobile Menu Icon -->
+      <div class="sm:hidden">
+        <button id="menu-btn" class="text-2xl text-gray-700 focus:outline-none">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="sm:hidden hidden px-4 pb-4 space-y-2">
+      <a href="../Testimoneal/Testimoneal.html" class="block text-gray-700 hover:text-blue-600">Testimonial</a>
+      <a href="../Why/Why.html" class="block text-gray-700 hover:text-blue-600">Why?</a>
+      <a href="../mentor/mentor.html" class="block text-gray-700 hover:text-blue-600">Our Mentors</a>
+      <a href="#footer" class="block text-gray-700 hover:text-blue-600">About Us</a>
+      <i class="fa-solid fa-user text-gray-700"></i>
+    </div>
+  </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-10 space-y-10">
+    <!-- Hero Section -->
+    <section class="fade-in-up">
+        <!-- Heading -->
+        <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-5xl font-bold text-blue-600">Meet Our Mentors</h1>
+        </div>
+
+        <!-- Grid Layout for Mentors -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <!-- Mentor Card -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover-scale text-center p-4">
+            <img src="../Material/Mentor/WhatsApp Image 2025-06-23 at 18.38.11_7c8f82c7.jpg" alt="Deepak Chopra" class="w-full h-60 object-cover rounded-md mb-4">
+            <strong class="block text-lg text-gray-700">Deepak Chopra</strong>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover-scale text-center p-4">
+            <img src="../Material/Mentor/WhatsApp Image 2025-06-23 at 18.44.34_dbfc671f.jpg" alt="Vidisha Kaushal" class="w-full h-60 object-cover rounded-md mb-4">
+            <strong class="block text-lg text-gray-700">Vidisha Kaushal</strong>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover-scale text-center p-4">
+            <img src="../Material/Mentor/WhatsApp Image 2025-06-23 at 18.45.39_ab180db1.jpg" alt="Nitya Shanti" class="w-full h-60 object-cover rounded-md mb-4">
+            <strong class="block text-lg text-gray-700">Nitya Shanti</strong>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover-scale text-center p-4">
+            <img src="../Material/Mentor/WhatsApp Image 2025-06-23 at 18.47.46_76987666.jpg" alt="Dr. Frod Dyke" class="w-full h-60 object-cover rounded-md mb-4">
+            <strong class="block text-lg text-gray-700">Dr. Frod Dyke</strong>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover-scale text-center p-4">
+            <img src="../Material/Mentor/WhatsApp Image 2025-06-23 at 18.48.18_ee58a514.jpg" alt="Bk Sister Shivani" class="w-full h-60 object-cover rounded-md mb-4">
+            <strong class="block text-lg text-gray-700">Bk Sister Shivani</strong>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover-scale text-center p-4">
+            <img src="../Material/Mentor/WhatsApp Image 2025-06-23 at 18.54.50_03f809bf.jpg" alt="Sampriya" class="w-full h-60 object-cover rounded-md mb-4">
+            <strong class="block text-lg text-gray-700">Sampriya</strong>
+        </div>
+        </div>
+    </section>
+    </main>
+
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-white mt-6 py-10 border-t fade-in-up">
+    <div class="max-w-7xl mx-auto px-4">
+      <h3 class="text-xl font-semibold text-center text-blue-600 mb-6">Meet the Team</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="hover-scale">
+          <img src="https://ui-avatars.com/api/?name=Akshad+Aloni&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2">
+          <h4 class="font-bold">Akshad Aloni</h4>
+          <p class="text-sm text-gray-500">Team Lead | AI Engineer</p>
+        </div>
+        <div class="hover-scale">
+          <img src="https://ui-avatars.com/api/?name=Shantanu+Bawne&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2">
+          <h4 class="font-bold">Shantanu Bawne</h4>
+          <p class="text-sm text-gray-500">Backend Developer</p>
+        </div>
+        <div class="hover-scale">
+          <img src="https://ui-avatars.com/api/?name=Sakshi+Maind&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2">
+          <h4 class="font-bold">Sakshi Maind</h4>
+          <p class="text-sm text-gray-500">Research & Integration</p>
+        </div>
+        <div class="hover-scale">
+          <img src="https://ui-avatars.com/api/?name=Sarang+Khandate&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2">
+          <h4 class="font-bold">Sarang Khandate</h4>
+          <p class="text-sm text-gray-500">UI/UX | Front-End Developer</p>
+        </div>
+      </div>
+      <div class="text-center text-sm text-gray-500 mt-8">
+        <p><strong>College:</strong> Suryodaya College of Engineering and Technology</p>
+        <p><strong>Department:</strong> Data Science</p>
+        <p class="mt-2 text-xs">© 2025 AI Dhyaan. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in-up').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Toggle mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
