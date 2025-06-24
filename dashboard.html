@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Dhyaan - Unified Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    main {
+      flex: 1;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .fade-in-up.show {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .hover-scale {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-scale:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="text-white">
+<!-- Navbar -->
+<nav class="bg-white shadow-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-blue-700">Calmkarle</h1>
+    <div class="hidden sm:flex space-x-6">
+      <a href="#interaction" class="text-gray-800 font-medium hover:text-blue-600">Interaction</a>
+      <a href="#routes" class="text-gray-800 font-medium hover:text-blue-600">API Routes</a>
+      <a href="#livePlot" class="text-gray-800 font-medium hover:text-blue-600">Live Dashboard</a>
+    </div>
+    <div class="sm:hidden">
+      <button id="menu-btn" class="text-2xl text-gray-800 focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="sm:hidden hidden px-4 pb-4 space-y-2">
+    <a href="#interaction" class="block text-gray-800 hover:text-blue-600">Interaction</a>
+    <a href="#routes" class="block text-gray-800 hover:text-blue-600">API Routes</a>
+    <a href="#livePlot" class="block text-gray-800 hover:text-blue-600">Live Dashboard</a>
+  </div>
+</nav>
+
+<!-- Main Section -->
+<main id="interaction" class="max-w-7xl mx-auto px-4 py-10">
+  <div class="bg-white flex flex-col lg:flex-row gap-10 rounded-lg shadow">
+    <div class="w-full lg:w-1/2 space-y-6">
+      <div class="w-full h-72 border-4 border-blue-300 rounded-lg overflow-hidden shadow hover-scale">
+        <video id="webcam" autoplay playsinline class="w-full h-full object-cover rounded-xl"></video>
+      </div>
+      <div id="emotionStatus" class="bg-blue-100 text-blue-600 px-5 py-2 rounded-full text-lg font-medium shadow">
+        Emotion: Loading...
+      </div>
+      <div id="focusStatus" class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-md font-semibold shadow">
+        Focus: Loading...
+      </div>
+      <div class="w-full bg-white/30 rounded-full h-2.5 mt-2">
+        <div id="focusBar" class="bg-green-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%;"></div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-300 mt-6">
+        <h2 class="text-center text-lg font-semibold text-gray-800 mb-3">Live Emotion & Focus Graph</h2>
+        <div id="livePlot" class="w-full h-80"></div>
+      </div>
+    </div>
+
+    <div class="w-full lg:w-1/2 space-y-6">
+      <div class="bg-white p-5 rounded-xl shadow-md border border-gray-300">
+        <p class="text-xl font-bold text-gray-800">
+          Status: <span id="driftStatus" class="text-red-600 font-semibold">Checking...</span>
+        </p>
+        <p class="text-sm text-gray-700 mt-1" id="driftReason">Reason: Awaiting analysis...</p>
+      </div>
+      <div class="text-center bg-white p-6 rounded-xl shadow-md border border-gray-300">
+        <p class="font-bold text-xl text-gray-800 mb-2">Take a deep breath</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-300">
+        <p class="text-gray-800 text-base font-medium">You look stressed. Want to talk?</p>
+        
+        <button 
+          onclick="sendChat()" 
+          class="mt-4 bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 shadow-md"
+        >
+          💬 Sure
+        </button>
+        
+        <div id="chatResult" class="mt-4 text-gray-700 text-sm bg-gray-100 p-3 rounded-lg shadow-sm"></div>
+        <div id="chatTimestamp" class="text-xs text-gray-500 mt-1 italic"></div>
+        
+        <audio id="ttsPlayer" class="hidden"></audio>
+      </div>
+      <div>
+        <input id="chatInput" type="text" placeholder="Type your message..." class="w-full mt-2 p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800">
+      </div>
+      <button onclick="sendChat()" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Send to AI Listener</button>
+
+      <!-- Voice Emotion Analysis -->
+      <div class="bg-white p-6 rounded-xl mt-4 shadow-md border border-gray-200">
+        <p class="text-gray-800 font-semibold text-lg mb-3">🎙️ Voice Emotion Analysis</p>
+        <div class="space-x-3">
+          <button id="start-record" class="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 shadow-sm transition">Start Recording</button>
+          <button id="stop-record" class="bg-red-500 text-white px-5 py-2 rounded-md hover:bg-red-600 shadow-sm transition" disabled>Stop Recording</button>
+        </div>
+        <p id="voice-result" class="mt-4 text-sm text-gray-700 bg-gray-100 px-3 py-2 rounded shadow-sm">Voice status will appear here...</p>
+      </div>
+
+      <!-- Productivity Timer -->
+      <div class="bg-white p-6 rounded-xl mt-4 shadow-md border border-gray-200">
+        <p class="text-gray-800 font-semibold text-lg mb-3">⏳ Productivity Timer</p>
+        <div class="flex items-center space-x-4">
+          <button onclick="startPomodoro()" class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 shadow-sm transition">Start 25-min Focus</button>
+          <button onclick="stopPomodoro()" class="bg-red-500 text-white px-5 py-2 rounded-md hover:bg-red-600 shadow-sm transition">Stop</button>
+          <span id="pomodoroTimer" class="text-xl font-mono text-gray-800">25:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white py-10 border-t fade-in-up text-gray-800">
+  <div class="max-w-6xl mx-auto px-4">
+    <h3 class="text-xl font-semibold text-center text-blue-600 mb-6">Meet the Team</h3>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Akshad+Aloni&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2" alt="Akshad Aloni">
+        <h4 class="font-bold text-gray-900">Akshad Aloni</h4>
+        <p class="text-sm text-gray-600">Team Lead | AI Engineer</p>
+      </div>
+      
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Shantanu+Bawne&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2" alt="Shantanu Bawne">
+        <h4 class="font-bold text-gray-900">Shantanu Bawne</h4>
+        <p class="text-sm text-gray-600">Back-End Developer</p>
+      </div>
+      
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Sakshi+Maind&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2" alt="Sakshi Maind">
+        <h4 class="font-bold text-gray-900">Sakshi Maind</h4>
+        <p class="text-sm text-gray-600">Research & Integration</p>
+      </div>
+      
+      <div class="hover-scale">
+        <img src="https://ui-avatars.com/api/?name=Sarang+Khandate&background=6b7280&color=fff&size=128" class="mx-auto rounded-full w-24 h-24 mb-2" alt="Sarang Khandate">
+        <h4 class="font-bold text-gray-900">Sarang Khandate</h4>
+        <p class="text-sm text-gray-600">UI/UX | Front-End Developer</p>
+      </div>
+    </div>
+
+    <div class="text-center text-sm text-gray-600 mt-8">
+      <p><strong>College:</strong> Suryodaya College of Engineering and Technology</p>
+      <p><strong>Department:</strong> Data Science</p>
+      <p class="mt-2 text-xs text-gray-500">© 2025 AI Dhyaan. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+fetch("/start-webcam?debug=true").then(res => res.json()).then(data => console.log("✅ Webcam Start:", data)).catch(err => console.error("❌ Webcam start failed", err));
+
+window.addEventListener("DOMContentLoaded", () => {
+  const webcam = document.getElementById("webcam");
+  navigator.mediaDevices.getUserMedia({ video: true }).then(stream => { webcam.srcObject = stream; }).catch(err => { console.error("Webcam not accessible", err); });
+});
+
+window.addEventListener("beforeunload", () => {
+  const stream = document.getElementById("webcam")?.srcObject;
+  if (stream) stream.getTracks().forEach(track => track.stop());
+});
+
+const canvas = document.createElement("canvas");
+const context = canvas.getContext("2d");
+
+setInterval(() => {
+  const video = document.getElementById("webcam");
+  if (!video || video.readyState !== 4) return;
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.toBlob(blob => {
+    if (blob) {
+      const formData = new FormData();
+      formData.append("file", blob, "frame.jpg");
+      fetch("/analyze-frame", { method: "POST", body: formData }).catch(err => console.error("Frame send failed:", err));
+    }
+  }, "image/jpeg", 0.95);
+}, 2000);
+
+async function updateLiveStatus() {
+  try {
+    const res = await fetch("/live-status");
+    const data = await res.json();
+    document.getElementById("emotionStatus").innerHTML = `Emotion: <strong>${data.emotion}</strong>`;
+    document.getElementById("driftStatus").textContent = data.drift_detected ? 'Drifting' : 'Stable';
+    document.getElementById("driftReason").textContent = `Reason: ${data.suggestion}`;
+    document.getElementById("focusStatus").textContent = `Focus: ${data.focus}`;
+
+    const focusBar = document.getElementById("focusBar");
+    focusBar.style.width = `${data.focus * 100}%`;
+    focusBar.className = data.focus >= 0.7 ? "bg-green-400" : data.focus >= 0.4 ? "bg-yellow-400" : "bg-red-400";
+    focusBar.className += " h-2.5 rounded-full transition-all duration-500";
+    if (data.drift_detected && "vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+    document.title = data.drift_detected ? "⚠️ Attention Drift Detected!" : "AI Dhyaan - Unified Dashboard";
+  } catch (err) {
+    console.error("Live status fetch failed", err);
+  }
+}
+setInterval(updateLiveStatus, 3000);
+updateLiveStatus();
+
+async function sendChat() {
+  const inputElem = document.getElementById("chatInput");
+  const text = inputElem.value.trim();
+  if (!text) return;
+  const webhookURL = "https://shanaka7.app.n8n.cloud/webhook/a3ae8800-9c15-4845-b91f-607fa2003bcd/chat";
+  try {
+    const res = await fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text })
+    });
+    const data = await res.json();
+    document.getElementById("chatResult").innerHTML = `Emotion: ${data.emotion || "Unknown"}<br/>Drift: ${data.drift !== undefined ? data.drift : "Unknown"}<br/>Suggestion: ${data.suggestion || "No suggestion"}`;
+    document.getElementById("chatTimestamp").textContent = "🕒 " + new Date().toLocaleTimeString();
+    const suggestionText = data.suggestion || "No suggestion available";
+    const ttsPlayer = document.getElementById("ttsPlayer");
+    ttsPlayer.src = `/speak?text=${encodeURIComponent(suggestionText)}`;
+    ttsPlayer.play().catch(e => console.warn("TTS error", e));
+  } catch (err) {
+    console.error("Webhook error", err);
+    document.getElementById("chatResult").innerHTML = "❌ Error sending to webhook.";
+  }
+  inputElem.value = "";
+}
+
+let mediaRecorder, audioChunks = [];
+document.getElementById("start-record").onclick = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+  mediaRecorder.start();
+  audioChunks = [];
+  mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+  mediaRecorder.onstop = async () => {
+    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+    const formData = new FormData();
+    formData.append("file", audioBlob, "voice.webm");
+    try {
+      const response = await fetch("/analyze-voice", { method: "POST", body: formData });
+      const data = await response.json();
+      document.getElementById("voice-result").innerHTML = `Emotion: <strong>${data.emotion}</strong><br>Drift: <strong>${data.drift}</strong><br>Suggestion: ${data.suggestion}`;
+    } catch (err) {
+      console.error("Voice analysis failed", err);
+      document.getElementById("voice-result").textContent = "Error analyzing voice.";
+    }
+  };
+  this.disabled = true;
+  document.getElementById("stop-record").disabled = false;
+};
+document.getElementById("stop-record").onclick = () => {
+  mediaRecorder.stop();
+  document.getElementById("start-record").disabled = false;
+  this.disabled = true;
+};
+
+let timeData = [], focusData = [], emotionData = [], MAX_POINTS = 30;
+function updateGraph() {
+  fetch("/live-graph-data").then(res => res.json()).then(data => {
+    timeData.push(data.time); focusData.push(data.focus); emotionData.push(data.emotion);
+    if (timeData.length > MAX_POINTS) { timeData.shift(); focusData.shift(); emotionData.shift(); }
+    Plotly.newPlot('livePlot', [
+      { x: timeData, y: focusData, type: 'scatter', name: 'Focus', line: { color: 'green' }, fill: 'tozeroy' },
+      { x: timeData, y: emotionData, type: 'scatter', name: 'Emotion', line: { color: 'orange' }, fill: 'tozeroy' }
+    ], {
+      margin: { t: 30 }, paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
+      font: { color: 'white' }, yaxis: { title: 'Score', range: [-4, 3] }, 
+      xaxis: { title: 'Time' }, title: 'Live Emotion & Focus'
+    }, {responsive: true});
+  }).catch(err => console.error("Graph fetch error", err));
+}
+setInterval(updateGraph, 3000);
+updateGraph();
+
+let timerInterval, timeLeft = 1500;
+function startPomodoro() {
+  clearInterval(timerInterval);
+  timeLeft = 1500;
+  updatePomodoroUI();
+  timerInterval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("⏰ Time's up! Take a short break.");
+    } else {
+      timeLeft--;
+      updatePomodoroUI();
+    }
+  }, 1000);
+}
+function stopPomodoro() {
+  clearInterval(timerInterval);
+  document.getElementById("pomodoroTimer").textContent = "25:00";
+  timeLeft = 1500;
+}
+function updatePomodoroUI() {
+  const mins = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const secs = String(timeLeft % 60).padStart(2, "0");
+  document.getElementById("pomodoroTimer").textContent = `${mins}:${secs}`;
+}
+</script>
+</body>
+</html>
